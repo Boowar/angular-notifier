@@ -1,0 +1,28 @@
+<div *ngIf="!loading">
+  <main>
+    <mat-list *ngIf="tasks.length; else noTasks">
+      <mat-list-item *ngFor="let task of tasks">
+        <input type="checkbox">
+        <mat-card-title>Что делать: {{task?.note}}</mat-card-title>
+        <mat-card-content>Когда: {{task?.date | date: "medium"}}</mat-card-content>
+        <button mat-fab color="warn" class="rm" (click)="removeTask(task)"><span>&times;</span></button>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #noTasks>
+      <p style="text-align: center;">No tasks now!</p>
+    </ng-template>
+  </main>
+  <p *ngIf="loading">Loading...</p>
+</div>
+<footer>
+  <form (ngSubmit)="submitTask()" [formGroup]="form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="What you need to do" value="" formControlName="title">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput type="datetime-local" formControlName="date">
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid"> Add</button>
+  </form>
+</footer>
