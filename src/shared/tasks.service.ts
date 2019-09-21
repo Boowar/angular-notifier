@@ -13,10 +13,12 @@ export interface Task {
   providedIn: "root",
 })
 export class TasksService {
-  private userId: string = `A7tboRIFoMhJnwUfgwMd`
-  private myUrl: string = `https://europe-west1-st-testcase.cloudfunctions.net/api/reminders?userId=${this.userId}`
   private tasksUrl = "api/tasks"
   public tasks: Task[] = []
+
+  httpOptions = {
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -32,23 +34,14 @@ export class TasksService {
     )
   }
 
-  removeTask(task: Task) {
-    console.log(task.id)
-    return this.http.delete<void>(
-      `https://europe-west1-st-testcase.cloudfunctions.net/api/reminders/${task.id}?userId=A7tboRIFoMhJnwUfgwMd`
-    )
+  removeTask(task: Task | number): Observable<Task> {
+    const id = typeof task === "number" ? task : task.id
+    const url = `${this.tasksUrl}/${id}`
+
+    return this.http.delete<Task>(url, this.httpOptions).pipe()
   }
 
   createTask(task: Task): Observable<Task> {
-    return this.http
-      .post<any>(
-        `https://europe-west1-st-testcase.cloudfunctions.net/api/reminders?userId=A7tboRIFoMhJnwUfgwMd`,
-        task
-      )
-      .pipe(
-        map(res => {
-          return { ...task }
-        })
-      )
+    return this.http.post<Task>(this.tasksUrl, task, this.httpOptions)
   }
 }

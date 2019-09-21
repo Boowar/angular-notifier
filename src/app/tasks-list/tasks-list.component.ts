@@ -38,13 +38,9 @@ export class TasksListComponent implements OnInit {
     })
   }
 
-  removeTask(task: Task) {
-    this.tasksService.removeTask(task).subscribe(
-      () => {
-        this.tasks = this.tasks.filter(t => t.id !== task.id)
-      },
-      err => console.error(err)
-    )
+  removeTask(task: Task): void {
+    this.tasks = this.tasks.filter(t => t !== task)
+    this.tasksService.removeTask(task).subscribe()
   }
 
   submitTask() {
