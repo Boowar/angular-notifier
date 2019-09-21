@@ -15,32 +15,13 @@ export class TasksListComponent implements OnInit {
   constructor(private tasksService: TasksService) {}
 
   ngOnInit() {
-    /* this.tasksService.getTasks().subscribe(
+    this.tasksService.getTasks().subscribe(
       tasks => {
         this.tasks = tasks
         this.loading = false
       },
       err => console.error(err)
-    ) */
-
-    this.tasks = [
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-    ]
+    )
 
     this.form = new FormGroup({
       title: new FormControl("", Validators.required),
