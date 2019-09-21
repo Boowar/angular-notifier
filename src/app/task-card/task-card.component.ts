@@ -12,6 +12,11 @@ export class TaskCardComponent implements OnInit {
   @Output() taskId: EventEmitter<string> = new EventEmitter()
   form: FormGroup
   change = false
+  made = false
+
+  strike() {
+    this.made = !this.made
+  }
 
   removeTask(task: Task): void {
     this.tasksService.removeTask(task).subscribe()

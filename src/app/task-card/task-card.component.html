@@ -1,14 +1,14 @@
 <mat-card>
-  <mat-checkbox>Выполнено</mat-checkbox>
+  <mat-checkbox (click)="strike()">Выполнено</mat-checkbox>
   <form (ngSubmit)="submitTask()" [formGroup]="form">
     <div class="text-wrapper">
-      <mat-card-title>{{task.note}}</mat-card-title>
+      <mat-card-title [ngClass]="{strike: made}">{{task.note}}</mat-card-title>
       <div *ngIf="change">
         <mat-form-field class="example-full-width">
           <input matInput placeholder="Изменить задачу" value="" formControlName="title">
         </mat-form-field>
       </div>
-      <mat-card-content>{{task.date | date: "medium"}}</mat-card-content>
+      <mat-card-content [ngClass]="{strike: made}">{{task.date | date: "medium"}}</mat-card-content>
       <div *ngIf="change">
         <mat-form-field class="example-full-width">
           <input matInput type="datetime-local" formControlName="date">
@@ -22,7 +22,7 @@
     <button mat-mini-fab color="warn" (click)="removeTask(task)"><i class="material-icons">
         close
       </i></button>
-    <button mat-mini-fab color="primary" (click)="changeTask(this.change)">
+    <button mat-mini-fab color="primary" (click)="changeTask(this.change)" [ngClass]="{invisible: made}">
       <i class="material-icons" *ngIf="!change">
         keyboard_arrow_down
       </i>
