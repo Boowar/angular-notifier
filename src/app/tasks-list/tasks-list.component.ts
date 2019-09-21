@@ -23,28 +23,18 @@ export class TasksListComponent implements OnInit {
       err => console.error(err)
     ) */
 
-    this.tasks = [
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-      {
-        note: "hello",
-        date: "2019-01-01T10:15:00.000Z",
-      },
-    ]
+    this.getTasks()
 
     this.form = new FormGroup({
       title: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
+    })
+  }
+
+  getTasks(): void {
+    this.tasksService.getTasks().subscribe(tasks => {
+      this.tasks = tasks
+      this.loading = false
     })
   }
 

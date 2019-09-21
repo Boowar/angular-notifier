@@ -9,6 +9,8 @@ import { AppComponent } from "./app.component"
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { CardComponent } from "./card/card.component"
 import { TasksListComponent } from "./tasks-list/tasks-list.component"
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api"
+import { InMemoryDataService } from "../shared/in-memory-data.service"
 
 @NgModule({
   declarations: [AppComponent, CardComponent, TasksListComponent],
@@ -20,6 +22,10 @@ import { TasksListComponent } from "./tasks-list/tasks-list.component"
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
+      dataEncapsulation: false,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

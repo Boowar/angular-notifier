@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { HttpClient } from "@angular/common/http"
+import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { Observable } from "rxjs"
 import { map } from "rxjs/operators"
 
@@ -15,24 +15,21 @@ export interface Task {
 export class TasksService {
   private userId: string = `A7tboRIFoMhJnwUfgwMd`
   private myUrl: string = `https://europe-west1-st-testcase.cloudfunctions.net/api/reminders?userId=${this.userId}`
+  private tasksUrl = "api/tasks"
   public tasks: Task[] = []
 
   constructor(private http: HttpClient) {}
 
   getTasks(): Observable<Task[]> {
-    return this.http
-      .get<Task[]>(
-        `https://europe-west1-st-testcase.cloudfunctions.net/api/reminders?userId=A7tboRIFoMhJnwUfgwMd`
-      )
-      .pipe(
-        map(tasks => {
-          if (!tasks) {
-            return []
-          }
-          console.log(tasks, "||||", Object.keys(tasks))
-          return Object.keys(tasks).map(key => ({ ...tasks[key] }))
-        })
-      )
+    return this.http.get<Task[]>(this.tasksUrl).pipe(
+      map(tasks => {
+        if (!tasks) {
+          return []
+        }
+        console.log(tasks, "||||", Object.keys(tasks))
+        return Object.keys(tasks).map(key => ({ ...tasks[key] }))
+      })
+    )
   }
 
   removeTask(task: Task) {
