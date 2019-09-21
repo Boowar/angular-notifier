@@ -1,3 +1,44 @@
-.card {
+.mat-card {
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  min-width: 450px;
+  margin: 0 auto;
+  justify-content: space-between;
+
+  .mat-card-title,
+  .mat-card-content {}
+
+  .mat-checkbox {
+    margin: auto 1rem;
+  }
+
+  .text-wrapper {
+    min-width: 250px;
+
+    .mat-form-field {
+      min-width: 250px;
+    }
+  }
+
+  .buttons-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+
+    button {
+      transition: .3s all;
+      cursor: pointer;
+
+      .rotate {
+        transform: rotate(180deg);
+      }
+
+      &:hover {
+        background: darken(black, 20%);
+      }
+    }
+  }
 }

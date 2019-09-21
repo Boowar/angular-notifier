@@ -3,15 +3,16 @@ ul {
   padding: 0;
   margin: 0;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 
   li {
     position: relative;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: .5rem 1rem;
     margin-bottom: .5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+
   }
 
   input {
@@ -39,38 +40,5 @@ ul {
 
   &:hover {
     background: darken($color, 20%);
-  }
-
-  span {
-    padding-bottom: 10px;
-  }
-
-}
-
-.example-form {
-  min-width: 150px;
-
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-.example-card {
-  min-width: 150px;
-  width: 100%;
-  border: 1px solid black;
-}
-
-.mat-card {
-
-  .mat-card-title,
-  .mat-card-content {
-    display: inline-block;
-  }
-
-  .mat-fab {
-    padding-right: auto;
   }
 }
