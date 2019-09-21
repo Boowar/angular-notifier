@@ -1,0 +1,18 @@
+.mat-card {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+
+  .button-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    min-width: 450px;
+  }
+}

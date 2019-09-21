@@ -11,10 +11,11 @@ import { CardComponent } from "./card/card.component"
 import { TasksListComponent } from "./tasks-list/tasks-list.component"
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api"
 import { InMemoryDataService } from "../shared/in-memory-data.service";
-import { TaskCardComponent } from './task-card/task-card.component'
+import { TaskCardComponent } from './task-card/task-card.component';
+import { NewTaskComponent } from './new-task/new-task.component'
 
 @NgModule({
-  declarations: [AppComponent, CardComponent, TasksListComponent, TaskCardComponent],
+  declarations: [AppComponent, CardComponent, TasksListComponent, TaskCardComponent, NewTaskComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
