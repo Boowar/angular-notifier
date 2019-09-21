@@ -15,14 +15,6 @@ export class TasksListComponent implements OnInit {
   constructor(private tasksService: TasksService) {}
 
   ngOnInit() {
-    /* this.tasksService.getTasks().subscribe(
-      tasks => {
-        this.tasks = tasks
-        this.loading = false
-      },
-      err => console.error(err)
-    ) */
-
     this.getTasks()
 
     this.form = new FormGroup({

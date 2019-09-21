@@ -2,12 +2,7 @@
   <main>
     <ul *ngIf="tasks.length; else noTasks">
       <li *ngFor="let task of tasks">
-        <mat-card class="example-card">
-          <mat-checkbox class="example-margin">Checked</mat-checkbox>
-          <mat-card-title>Что делать: {{task?.note}}</mat-card-title>
-          <mat-card-content>Когда: {{task?.date | date: "medium"}}</mat-card-content>
-          <button mat-fab color="warn" class="rm" (click)="removeTask(task)"><span>&times;</span></button>
-        </mat-card>
+        <app-task-card [task]="task" [taskId]=""></app-task-card>
       </li>
     </ul>
     <ng-template #noTasks>

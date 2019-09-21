@@ -10,10 +10,11 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { CardComponent } from "./card/card.component"
 import { TasksListComponent } from "./tasks-list/tasks-list.component"
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api"
-import { InMemoryDataService } from "../shared/in-memory-data.service"
+import { InMemoryDataService } from "../shared/in-memory-data.service";
+import { TaskCardComponent } from './task-card/task-card.component'
 
 @NgModule({
-  declarations: [AppComponent, CardComponent, TasksListComponent],
+  declarations: [AppComponent, CardComponent, TasksListComponent, TaskCardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
