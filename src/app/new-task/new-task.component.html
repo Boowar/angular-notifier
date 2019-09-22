@@ -4,22 +4,26 @@
       <i class="material-icons" *ngIf="!create">
         keyboard_arrow_up
       </i>
+
       <i class="material-icons" *ngIf="create">
         keyboard_arrow_down
       </i>
     </button>
   </div>
+
   <div *ngIf="create">
+
     <form (ngSubmit)="submitTask()" [formGroup]="form" class="form-wrapper">
       <mat-form-field class="example-full-width">
         <input matInput placeholder="What you need to do" value="" formControlName="title">
       </mat-form-field>
 
-
       <mat-form-field class="example-full-width">
         <input matInput type="datetime-local" formControlName="date">
       </mat-form-field>
-      <button mat-raised-button color="primary" type=" submit" [disabled]="form.invalid"> Add</button>
+
+      <button mat-raised-button type="submit" [disabled]="form.invalid"> Добавить задачу</button>
+
     </form>
   </div>
 </mat-card>

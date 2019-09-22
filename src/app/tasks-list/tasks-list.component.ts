@@ -35,21 +35,7 @@ export class TasksListComponent implements OnInit {
     this.tasksService.removeTask(task).subscribe()
   }
 
-  submitTask() {
-    const { title, date } = this.form.value
-    console.log("form.value", this.form.value)
-    const task: Task = {
-      note: title,
-      date: date,
-    }
-
-    this.tasksService.createTask(task).subscribe(
-      task => {
-        console.log(task)
-        this.tasks.push(task)
-        this.form.reset()
-      },
-      err => console.error(task, err)
-    )
+  componentChange(value): void {
+    this.tasks.push(value)
   }
 }

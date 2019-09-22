@@ -12,5 +12,5 @@
   <p *ngIf="loading">Loading...</p>
 </div>
 <footer>
-  <app-new-task></app-new-task>
+  <app-new-task (outputEvent)="componentChange($event)"></app-new-task>
 </footer>

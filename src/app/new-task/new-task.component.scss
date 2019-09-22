@@ -1,3 +1,5 @@
+$form-butten : rgb(0, 128, 0);
+
 .mat-card {
   display: flex;
   flex-wrap: wrap;
@@ -7,6 +9,16 @@
   .button-wrapper {
     display: flex;
     justify-content: center;
+
+    button {
+      background-color: $form-butten;
+      transition: .3s all;
+      cursor: pointer;
+
+      &:hover {
+        background: darken($form-butten, 10%);
+      }
+    }
   }
 
   .form-wrapper {

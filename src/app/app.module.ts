@@ -7,15 +7,19 @@ import { HttpClientModule } from "@angular/common/http"
 import { AppRoutingModule } from "./app-routing.module"
 import { AppComponent } from "./app.component"
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
-import { CardComponent } from "./card/card.component"
 import { TasksListComponent } from "./tasks-list/tasks-list.component"
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api"
-import { InMemoryDataService } from "../shared/in-memory-data.service";
-import { TaskCardComponent } from './task-card/task-card.component';
-import { NewTaskComponent } from './new-task/new-task.component'
+import { InMemoryDataService } from "../shared/in-memory-data.service"
+import { TaskCardComponent } from "./task-card/task-card.component"
+import { NewTaskComponent } from "./new-task/new-task.component"
 
 @NgModule({
-  declarations: [AppComponent, CardComponent, TasksListComponent, TaskCardComponent, NewTaskComponent],
+  declarations: [
+    AppComponent,
+    TasksListComponent,
+    TaskCardComponent,
+    NewTaskComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
