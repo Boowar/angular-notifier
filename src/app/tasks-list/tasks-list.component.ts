@@ -31,11 +31,11 @@ export class TasksListComponent implements OnInit {
   }
 
   removeTask(task: Task): void {
+    console.log("task-list", task)
     this.tasks = this.tasks.filter(t => t !== task)
-    this.tasksService.removeTask(task).subscribe()
   }
 
-  componentChange(value): void {
-    this.tasks.push(value)
+  componentChange(task: Task): void {
+    this.tasks.push(task)
   }
 }

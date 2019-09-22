@@ -2,7 +2,7 @@
   <main>
     <ul *ngIf="tasks.length; else noTasks">
       <li *ngFor="let task of tasks">
-        <app-task-card [task]="task"></app-task-card>
+        <app-task-card [task]="task" (outputEvent1)="removeTask($event)"></app-task-card>
       </li>
     </ul>
     <ng-template #noTasks>

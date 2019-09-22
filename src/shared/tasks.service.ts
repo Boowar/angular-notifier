@@ -34,8 +34,8 @@ export class TasksService {
     )
   }
 
-  removeTask(task: Task | number): Observable<Task> {
-    const id = typeof task === "number" ? task : task.id
+  removeTask(task: Task): Observable<Task> {
+    const id = task.id
     const url = `${this.tasksUrl}/${id}`
 
     return this.http.delete<Task>(url, this.httpOptions).pipe()

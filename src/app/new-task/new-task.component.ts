@@ -8,7 +8,7 @@ import { TasksService, Task } from "./../../shared/tasks.service"
   styleUrls: ["./new-task.component.scss"],
 })
 export class NewTaskComponent implements OnInit {
-  @Output() outputEvent = new EventEmitter()
+  @Output() outputEvent: EventEmitter<Task> = new EventEmitter()
 
   form: FormGroup
   create = false

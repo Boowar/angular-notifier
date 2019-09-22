@@ -9,7 +9,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms"
 })
 export class TaskCardComponent implements OnInit {
   @Input() task: Task
-  @Output() taskId: EventEmitter<string> = new EventEmitter()
+  @Output() outputEvent1: EventEmitter<Task> = new EventEmitter()
   form: FormGroup
   change = false
   made = false
@@ -20,8 +20,7 @@ export class TaskCardComponent implements OnInit {
 
   removeTask(task: Task): void {
     this.tasksService.removeTask(task).subscribe()
-    this.taskId.emit(task.id)
-    console.log(task.id)
+    this.outputEvent1.emit(task)
   }
 
   changeTask(change: boolean): void {
