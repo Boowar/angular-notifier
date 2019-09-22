@@ -1,6 +1,6 @@
 <mat-card>
   <mat-checkbox (click)="strike()">Выполнено</mat-checkbox>
-  <form (ngSubmit)="submitTask()" [formGroup]="form">
+  <form (ngSubmit)="updateTask(task)" [formGroup]="form">
     <div class="text-wrapper">
       <mat-card-title [ngClass]="{strike: made}">{{task.note}}</mat-card-title>
       <div *ngIf="change">
@@ -22,7 +22,7 @@
     <button mat-mini-fab color="warn" (click)="removeTask(task)"><i class="material-icons">
         delete_sweep
       </i></button>
-    <button mat-mini-fab color="primary" (click)="changeTask(this.change)" [ngClass]="{invisible: made}">
+    <button mat-mini-fab color="primary" (click)="openUpdateTaskForm(this.change)" [ngClass]="{invisible: made}">
       <i class="material-icons" *ngIf="!change">
         keyboard_arrow_down
       </i>

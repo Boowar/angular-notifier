@@ -1,6 +1,7 @@
-import { TasksService, Task } from "./../../shared/tasks.service"
+import { TasksService } from "./../../shared/tasks.service"
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
+import { Task } from "../../shared/task.model"
 
 @Component({
   selector: "app-task-card",
@@ -16,15 +17,34 @@ export class TaskCardComponent implements OnInit {
 
   strike() {
     this.made = !this.made
+    if (this.change) {
+      this.change = !this.change
+    }
+  }
+
+  openUpdateTaskForm(change: boolean): void {
+    this.change = !change
   }
 
   removeTask(task: Task): void {
-    this.tasksService.removeTask(task).subscribe()
-    this.outputEvent1.emit(task)
+    this.tasksService.removeTask(task).subscribe(() => {
+      this.outputEvent1.emit(task)
+    })
   }
 
-  changeTask(change: boolean): void {
-    this.change = !change
+  updateTask(task: Task): void {
+    const { title, date } = this.form.value
+    const updateTask: Task = {
+      note: title,
+      date: date,
+      id: task.id,
+    }
+
+    console.log("task-card__update1", task, updateTask)
+    this.tasksService.updateTask(updateTask).subscribe(() => {
+      console.log("task-card__update2", task, updateTask)
+      this.outputEvent1.emit(updateTask)
+    })
   }
 
   constructor(private tasksService: TasksService) {}

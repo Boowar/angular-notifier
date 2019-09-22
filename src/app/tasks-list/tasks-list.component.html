@@ -1,16 +1,16 @@
-<div *ngIf="!loading">
-  <main>
+<main>
+  <div *ngIf="!loading">
     <ul *ngIf="tasks.length; else noTasks">
       <li *ngFor="let task of tasks">
-        <app-task-card [task]="task" (outputEvent1)="removeTask($event)"></app-task-card>
+        <app-task-card [task]="task" (outputEvent1)="getTasks()"></app-task-card>
       </li>
     </ul>
     <ng-template #noTasks>
-      <p style="text-align: center;">No tasks now!</p>
+      <p>No tasks now!</p>
     </ng-template>
-  </main>
+  </div>
   <p *ngIf="loading">Loading...</p>
-</div>
+</main>
 <footer>
-  <app-new-task (outputEvent)="componentChange($event)"></app-new-task>
+  <app-new-task (outputEvent)="getTasks()"></app-new-task>
 </footer>

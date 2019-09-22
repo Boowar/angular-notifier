@@ -1,20 +1,18 @@
+import { Task } from "./task.model"
 import { Injectable } from "@angular/core"
 import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { Observable } from "rxjs"
 import { map } from "rxjs/operators"
 
-export interface Task {
-  id?: string
-  note: string
-  date: Date | string /* убрать string */
-}
-
 @Injectable({
   providedIn: "root",
 })
 export class TasksService {
-  private tasksUrl = "api/tasks"
   public tasks: Task[] = []
+
+  private userId: string = `A7tboRIFoMhJnwUfgwMd`
+  private mainUrl: string = `https://europe-west1-st-testcase.cloudfunctions.net`
+  private tasksUrl: string = `${this.mainUrl}/api/reminders?userId=${this.userId}`
 
   httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -35,13 +33,16 @@ export class TasksService {
   }
 
   removeTask(task: Task): Observable<Task> {
-    const id = task.id
-    const url = `${this.tasksUrl}/${id}`
-
-    return this.http.delete<Task>(url, this.httpOptions).pipe()
+    const taskUrl: string = `${this.mainUrl}/api/reminders/${task.id}?userId=${this.userId}`
+    return this.http.delete<Task>(taskUrl)
   }
 
   createTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.tasksUrl, task, this.httpOptions)
+    return this.http.post<Task>(this.tasksUrl, task)
+  }
+
+  updateTask(task: Task): Observable<Task> {
+    const taskUrl: string = `${this.mainUrl}/api/reminders/${task.id}?userId=${this.userId}`
+    return this.http.put<Task>(taskUrl, task)
   }
 }

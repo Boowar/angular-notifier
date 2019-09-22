@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
-import { TasksService, Task } from "./../../shared/tasks.service"
+import { TasksService } from "./../../shared/tasks.service"
+import { Task } from "../../shared/task.model"
 
 @Component({
   selector: "app-new-task",
@@ -8,7 +9,7 @@ import { TasksService, Task } from "./../../shared/tasks.service"
   styleUrls: ["./new-task.component.scss"],
 })
 export class NewTaskComponent implements OnInit {
-  @Output() outputEvent: EventEmitter<Task> = new EventEmitter()
+  @Output() outputEvent: EventEmitter<any> = new EventEmitter()
 
   form: FormGroup
   create = false
@@ -25,8 +26,8 @@ export class NewTaskComponent implements OnInit {
     }
 
     this.tasksService.createTask(task).subscribe(
-      task => {
-        this.outputEvent.emit(task)
+      () => {
+        this.outputEvent.emit()
         this.form.reset()
       },
       err => console.error(task, err)

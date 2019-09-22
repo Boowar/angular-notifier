@@ -1,6 +1,7 @@
-import { TasksService, Task } from "./../../shared/tasks.service"
+import { TasksService } from "./../../shared/tasks.service"
 import { Component, OnInit } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
+import { Task } from "../../shared/task.model"
 
 @Component({
   selector: "app-tasks-list",
@@ -25,17 +26,9 @@ export class TasksListComponent implements OnInit {
 
   getTasks(): void {
     this.tasksService.getTasks().subscribe(tasks => {
+      console.log("getTasks", tasks)
       this.tasks = tasks
       this.loading = false
     })
-  }
-
-  removeTask(task: Task): void {
-    console.log("task-list", task)
-    this.tasks = this.tasks.filter(t => t !== task)
-  }
-
-  componentChange(task: Task): void {
-    this.tasks.push(task)
   }
 }

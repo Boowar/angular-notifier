@@ -1,29 +1,29 @@
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-
-  li {
-    position: relative;
-    margin-bottom: .5rem;
+main {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 1rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    li {
+      position: relative;
+      margin-bottom: .5rem;
+      display: flex;
+      justify-content: center;
+
+    }
+
+    input {
+      margin-right: 1rem;
+    }
 
   }
 
-  input {
-    margin-right: 1rem;
-  }
-
-  small {
-    position: absolute;
-    right: 40px;
-    bottom: 5px;
-    font-size: .8rem;
+  p {
+    text-align: center;
   }
 }
 
@@ -31,17 +31,6 @@ ul {
   text-decoration: line-through;
 }
 
-.rm {
-  $color: red;
-  font-size: 1rem;
-  transition: .3s all;
-  cursor: pointer;
-  text-align: center;
-
-  &:hover {
-    background: darken($color, 20%);
-  }
-}
 
 footer {
   position: fixed;
