@@ -1,4 +1,4 @@
-export class Task {
+export interface Task {
   id?: string
   note: string
   date: Date

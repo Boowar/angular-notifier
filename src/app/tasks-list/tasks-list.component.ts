@@ -1,7 +1,7 @@
-import { TasksService } from "./../../shared/tasks.service"
 import { Component, OnInit } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { Task } from "../../shared/task.model"
+import { TasksService } from "./../../shared/tasks.service"
 
 @Component({
   selector: "app-tasks-list",
@@ -27,7 +27,9 @@ export class TasksListComponent implements OnInit {
   getTasks(): void {
     this.tasksService.getTasks().subscribe(tasks => {
       console.log("getTasks", tasks)
-      this.tasks = tasks
+      this.tasks = tasks.sort((a, b) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime()
+      })
       this.loading = false
     })
   }

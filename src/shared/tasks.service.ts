@@ -14,10 +14,6 @@ export class TasksService {
   private mainUrl: string = `https://europe-west1-st-testcase.cloudfunctions.net`
   private tasksUrl: string = `${this.mainUrl}/api/reminders?userId=${this.userId}`
 
-  httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" }),
-  }
-
   constructor(private http: HttpClient) {}
 
   getTasks(): Observable<Task[]> {

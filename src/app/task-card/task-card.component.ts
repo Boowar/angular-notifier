@@ -2,6 +2,7 @@ import { TasksService } from "./../../shared/tasks.service"
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { Task } from "../../shared/task.model"
+import { PushNotificationsService } from "./../../shared/push-notifications.service"
 
 @Component({
   selector: "app-task-card",
@@ -47,9 +48,27 @@ export class TaskCardComponent implements OnInit {
     })
   }
 
-  constructor(private tasksService: TasksService) {}
+  makePushNotification(pushNotifications, task) {
+    const eta_ms = new Date(task.date).getTime() - Date.now()
+    if (eta_ms > 0) {
+      const timeout = setTimeout(function() {
+        pushNotifications
+          .create("Test", { body: "something" })
+          .subscribe(res => console.log(res), err => console.log(err))
+      }, eta_ms)
+      timeout
+    } else {
+      console.log(`The task ${task.note} is completed`)
+    }
+  }
+  constructor(
+    private tasksService: TasksService,
+    private pushNotifications: PushNotificationsService
+  ) {}
 
   ngOnInit() {
+    this.makePushNotification(this.pushNotifications, this.task)
+
     this.form = new FormGroup({
       title: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
