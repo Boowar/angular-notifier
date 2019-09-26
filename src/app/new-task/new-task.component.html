@@ -2,11 +2,11 @@
   <div class="button-wrapper">
     <button mat-mini-fab color="primary" (click)="createTask(this.create)" [ngClass]="{invisible: made}">
       <i class="material-icons" *ngIf="!create">
-        keyboard_arrow_up
+        keyboard_arrow_down
       </i>
 
       <i class="material-icons" *ngIf="create">
-        keyboard_arrow_down
+        keyboard_arrow_up
       </i>
     </button>
   </div>

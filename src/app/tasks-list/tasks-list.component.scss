@@ -1,4 +1,10 @@
 main {
+  .new-task {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
   ul {
     list-style: none;
     padding: 0;
@@ -14,6 +20,10 @@ main {
       display: flex;
       justify-content: center;
 
+      app-task-card {
+        display: flex;
+        justify-content: center;
+      }
     }
 
     input {
@@ -22,8 +32,15 @@ main {
 
   }
 
-  p {
-    text-align: center;
+  .mat-card {
+    margin: 1rem;
+  }
+
+  .loader {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
   }
 }
 
