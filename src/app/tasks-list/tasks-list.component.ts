@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
-import { Task } from "../../shared/task.model"
-import { TasksService } from "./../../shared/tasks.service"
+import { Task } from "../shared/task.model"
+import { TasksService } from "../shared/tasks.service"
 import { MatSnackBar } from "@angular/material/snack-bar"
 
 @Component({
@@ -11,12 +11,12 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 })
 export class TasksListComponent implements OnInit {
   private loading: boolean = true
-  form: FormGroup
-  tasks: Task[]
+  private form: FormGroup
+  private tasks: Task[]
 
   constructor(
     private tasksService: TasksService,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class TasksListComponent implements OnInit {
       console.log("getTasks", tasks)
       /* сортировка tasks[] в порядке убывания даты*/
       this.tasks = tasks.sort((a, b) => {
-        return new Date(b.date).getTime() - new Date(a.date).getTime()
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
       })
       this.tasks = this.sortedTasks(this.tasks)
       this.loading = false
@@ -93,7 +93,7 @@ export class TasksListComponent implements OnInit {
   }
 
   openSnackBar(message: string, action: string = "Ok") {
-    this._snackBar.open(message, action, {
+    this.snackBar.open(message, action, {
       duration: 2000,
     })
   }

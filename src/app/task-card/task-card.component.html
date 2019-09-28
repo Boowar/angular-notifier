@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-checkbox (change)="done()" [checked]="made" [disabled]="true">
+  <mat-checkbox (change)="done()" [checked]="made">
     <div *ngIf="made">Выполнено</div>
     <div *ngIf="!made">В процессе</div>
   </mat-checkbox>
@@ -8,13 +8,13 @@
       <mat-card-title [ngClass]="{strike: made}">{{task.note}}</mat-card-title>
       <div *ngIf="changeForm">
         <mat-form-field class="example-full-width">
-          <input matInput placeholder="Изменить задачу" value="" formControlName="title">
+          <input matInput placeholder="Изменить задачу" value="{{task.note}}" formControlName="title">
         </mat-form-field>
       </div>
       <mat-card-content [ngClass]="{strike: made}">{{task.date | date: "medium"}}</mat-card-content>
       <div *ngIf="changeForm">
         <mat-form-field class="example-full-width">
-          <input matInput type="datetime-local" formControlName="date">
+          <input matInput type="datetime-local" formControlName="date" value="{{task.date | date: 'yyyy-MM-ddTHH:mm'}}">
         </mat-form-field>
       </div>
     </div>

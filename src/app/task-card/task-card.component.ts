@@ -1,19 +1,21 @@
-import { TasksService } from "./../../shared/tasks.service"
+import { TasksService } from "../shared/tasks.service"
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
-import { Task } from "../../shared/task.model"
-import { PushNotificationsService } from "./../../shared/push-notifications.service"
+import { Task } from "../shared/task.model"
+import { PushNotificationsService } from "../shared/push-notifications.service"
 import { MatSnackBar } from "@angular/material/snack-bar"
+import { ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core"
 
 @Component({
   selector: "app-task-card",
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: "./task-card.component.html",
   styleUrls: ["./task-card.component.scss"],
 })
 export class TaskCardComponent implements OnInit {
   @Input() task: Task
   @Output() outputEvent: EventEmitter<Task> = new EventEmitter()
-  form: FormGroup
+  private form: FormGroup
   changeForm = false
   made = false
 
@@ -52,14 +54,18 @@ export class TaskCardComponent implements OnInit {
   makePushNotification(pushNotifications, task) {
     const eta_ms = new Date(task.date).getTime() - Date.now()
     if (eta_ms > 0) {
-      const timeout = setTimeout(function() {
+      const timeout = setTimeout(() => {
         pushNotifications.create("Test", { body: task.note }).subscribe(
           res => {
-            console.log(res), this.done()
+            console.log(res)
+            this.done()
+            this.ref.detectChanges()
+            console.log("this", this)
           },
           err => console.log(err)
         )
       }, eta_ms)
+
       timeout
     } else {
       this.done()
@@ -68,7 +74,7 @@ export class TaskCardComponent implements OnInit {
   }
 
   openSnackBar(message: string, action: string = "Ok") {
-    this._snackBar.open(message, action, {
+    this.snackBar.open(message, action, {
       duration: 2000,
     })
   }
@@ -76,7 +82,8 @@ export class TaskCardComponent implements OnInit {
   constructor(
     private tasksService: TasksService,
     private pushNotifications: PushNotificationsService,
-    private _snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private ref: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
