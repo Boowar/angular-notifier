@@ -12,7 +12,7 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 export class TasksListComponent implements OnInit {
   private loading: boolean = true
   private form: FormGroup
-  private tasks: Task[]
+  private tasks: Task[][]
 
   constructor(
     private tasksService: TasksService,
@@ -20,7 +20,7 @@ export class TasksListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getTasks()
+    /* this.getAllTasks() */
 
     this.form = new FormGroup({
       title: new FormControl("", Validators.required),
@@ -28,21 +28,49 @@ export class TasksListComponent implements OnInit {
     })
   }
 
-  getTasks(): void {
-    this.tasksService.getTasks().subscribe(tasks => {
-      console.log("getTasks", tasks)
-      /* сортировка tasks[] в порядке убывания даты*/
-      this.tasks = tasks.sort((a, b) => {
-        return new Date(a.date).getTime() - new Date(b.date).getTime()
-      })
-      this.tasks = this.sortedTasks(this.tasks)
+  getAllTasks(): void {
+    this.loading = true
+    this.tasksService.getTasks().subscribe(receivedTasks => {
+      this.tasks = this.sortedTasks(receivedTasks)
       this.loading = false
       this.openSnackBar("Данные успешно загружены")
     })
   }
 
-  sortedTasks(tasks): any {
-    let myTasks: Array<Task[]> = []
+  getCompletedTasks(): void {
+    this.loading = true
+    let completedTasks: Task[][] = []
+    this.tasksService.getTasks().subscribe(receivedTasks => {
+      const arrayTasks = this.sortedTasks(receivedTasks)
+      for (let tasks of arrayTasks) {
+        completedTasks.push(
+          tasks.filter(task => new Date(task.date).getTime() - Date.now() <= 0)
+        )
+      }
+      this.tasks = completedTasks
+      this.loading = false
+      this.openSnackBar("Данные успешно загружены")
+    })
+  }
+
+  getUncompletedTasks() {
+    this.loading = true
+    let completedTasks: Task[][] = []
+    this.tasksService.getTasks().subscribe(receivedTasks => {
+      const arrayTasks = this.sortedTasks(receivedTasks)
+      for (let tasks of arrayTasks) {
+        completedTasks.push(
+          tasks.filter(task => new Date(task.date).getTime() - Date.now() > 0)
+        )
+      }
+      this.tasks = completedTasks
+      this.loading = false
+      this.openSnackBar("Данные успешно загружены")
+    })
+  }
+
+  sortedTasks(tasks: Task[]): Array<Array<Task>> {
+    let myTasks: Task[][] = []
     let todayTasks: Task[] = []
     let tommorowTasks: Task[] = []
     let otherTasks: Task[] = []
@@ -86,13 +114,12 @@ export class TasksListComponent implements OnInit {
       }
     }
 
-    myTasks.push(todayTasks)
-    myTasks.push(tommorowTasks)
-    myTasks.push(otherTasks)
+    myTasks.push(todayTasks, tommorowTasks, otherTasks)
+
     return myTasks
   }
 
-  openSnackBar(message: string, action: string = "Ok") {
+  openSnackBar(message: string, action: string = "Ok"): void {
     this.snackBar.open(message, action, {
       duration: 2000,
     })

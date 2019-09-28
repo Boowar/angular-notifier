@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core"
+import { Component, OnInit, Output, EventEmitter } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
@@ -15,11 +15,23 @@ export class NewTaskComponent implements OnInit {
   private form: FormGroup
   private create = false
 
-  createTask() {
+  constructor(
+    private tasksService: TasksService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl("", Validators.required),
+      date: new FormControl("", Validators.required),
+    })
+  }
+
+  createTask(): void {
     this.create = !this.create
   }
 
-  submitTask() {
+  submitTask(): void {
     const { title, date } = this.form.value
     const task: Task = {
       note: title,
@@ -36,19 +48,7 @@ export class NewTaskComponent implements OnInit {
     )
   }
 
-  constructor(
-    private tasksService: TasksService,
-    private snackBar: MatSnackBar
-  ) {}
-
-  ngOnInit() {
-    this.form = new FormGroup({
-      title: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
-    })
-  }
-
-  openSnackBar(message: string, action: string = "Ok") {
+  openSnackBar(message: string, action: string = "Ok"): void {
     this.snackBar.open(message, action, {
       duration: 2000,
     })

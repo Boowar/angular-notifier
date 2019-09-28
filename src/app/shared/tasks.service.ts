@@ -22,7 +22,6 @@ export class TasksService {
         if (!tasks) {
           return []
         }
-        console.log(tasks, "||||", Object.keys(tasks))
         return Object.keys(tasks).map(key => ({ ...tasks[key] }))
       })
     )

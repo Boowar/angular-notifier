@@ -1,19 +1,32 @@
-<mat-card>
-  <div class="button-wrapper">
-    <button mat-mini-fab color="primary" (click)="createTask(this.create)" [ngClass]="{invisible: made}">
-      <i class="material-icons" *ngIf="!create">
-        keyboard_arrow_down
-      </i>
+<div class="button-wrapper" *ngIf="!create">
 
-      <i class="material-icons" *ngIf="create">
-        keyboard_arrow_up
-      </i>
-    </button>
-  </div>
+  <button mat-mini-fab color="primary" (click)="createTask(this.create)" [ngClass]="{invisible: made}">
 
-  <div *ngIf="create">
+    <i class="material-icons" *ngIf="!create">
+      keyboard_arrow_down
+    </i>
+
+  </button>
+
+</div>
+
+<div *ngIf="create">
+  <mat-card>
+
+    <div class="button-wrapper">
+
+      <button mat-mini-fab color="primary" (click)="createTask(this.create)" [ngClass]="{invisible: made}">
+
+        <i class="material-icons">
+          keyboard_arrow_up
+        </i>
+
+      </button>
+
+    </div>
 
     <form (ngSubmit)="submitTask()" [formGroup]="form" class="form-wrapper">
+
       <mat-form-field class="example-full-width">
         <input matInput placeholder="What you need to do" value="" formControlName="title">
       </mat-form-field>
@@ -25,5 +38,6 @@
       <button mat-raised-button type="submit" [disabled]="form.invalid"> Добавить задачу</button>
 
     </form>
-  </div>
-</mat-card>
+
+  </mat-card>
+</div>

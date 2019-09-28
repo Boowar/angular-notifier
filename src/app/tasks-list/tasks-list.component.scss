@@ -1,8 +1,24 @@
 main {
+
+  .buttons-panel,
   .new-task {
     width: 100%;
     display: flex;
     justify-content: center;
+
+
+
+    button {
+      background-color: rgb(255, 255, 255);
+      width: 12rem;
+      margin: 0 0.7rem;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  .new-task {
+    margin: 0.5rem 0;
   }
 
   ul {

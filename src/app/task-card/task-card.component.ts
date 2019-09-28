@@ -16,13 +16,29 @@ export class TaskCardComponent implements OnInit {
   @Input() task: Task
   @Output() outputEvent: EventEmitter<Task> = new EventEmitter()
   private form: FormGroup
-  changeForm = false
-  made = false
+  private changeForm = false
+  private made = false
 
-  done() {
+  constructor(
+    private tasksService: TasksService,
+    private pushNotifications: PushNotificationsService,
+    private snackBar: MatSnackBar,
+    private ref: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.makePushNotification(this.task)
+
+    this.form = new FormGroup({
+      title: new FormControl("", Validators.required),
+      date: new FormControl("", Validators.required),
+    })
+  }
+
+  isDone(): void {
     this.made = !this.made
     if (this.changeForm) {
-      this.changeForm = !this.changeForm
+      this.openUpdateTaskForm(this.changeForm)
     }
   }
 
@@ -51,47 +67,34 @@ export class TaskCardComponent implements OnInit {
     })
   }
 
-  makePushNotification(pushNotifications, task) {
+  makePushNotification(
+    task: Task,
+    pushNotifications: PushNotificationsService = this.pushNotifications
+  ): void {
     const eta_ms = new Date(task.date).getTime() - Date.now()
     if (eta_ms > 0) {
       const timeout = setTimeout(() => {
-        pushNotifications.create("Test", { body: task.note }).subscribe(
-          res => {
-            console.log(res)
-            this.done()
-            this.ref.detectChanges()
-            console.log("this", this)
-          },
-          err => console.log(err)
-        )
+        pushNotifications
+          .create("Задача выполнена", { body: task.note })
+          .subscribe(
+            () => {
+              this.isDone()
+              this.ref.detectChanges()
+            },
+            err => console.log(err)
+          )
       }, eta_ms)
 
       timeout
     } else {
-      this.done()
+      this.isDone()
       console.log(`The task ${task.note} is completed`)
     }
   }
 
-  openSnackBar(message: string, action: string = "Ok") {
+  openSnackBar(message: string, action: string = "Ok"): void {
     this.snackBar.open(message, action, {
       duration: 2000,
-    })
-  }
-
-  constructor(
-    private tasksService: TasksService,
-    private pushNotifications: PushNotificationsService,
-    private snackBar: MatSnackBar,
-    private ref: ChangeDetectorRef
-  ) {}
-
-  ngOnInit() {
-    this.makePushNotification(this.pushNotifications, this.task)
-
-    this.form = new FormGroup({
-      title: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
     })
   }
 }
