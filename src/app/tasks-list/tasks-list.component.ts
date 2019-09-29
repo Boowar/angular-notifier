@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core"
-import { FormGroup, FormControl, Validators } from "@angular/forms"
+import { MatSnackBar } from "@angular/material/snack-bar"
+
 import { Task } from "../shared/task.model"
 import { TasksService } from "../shared/tasks.service"
-import { MatSnackBar } from "@angular/material/snack-bar"
 
 @Component({
   selector: "app-tasks-list",
@@ -11,7 +11,6 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 })
 export class TasksListComponent implements OnInit {
   private loading: boolean = true
-  private form: FormGroup
   private tasks: Task[][]
 
   constructor(
@@ -21,11 +20,6 @@ export class TasksListComponent implements OnInit {
 
   ngOnInit() {
     /* this.getAllTasks() */
-
-    this.form = new FormGroup({
-      title: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
-    })
   }
 
   getAllTasks(): void {

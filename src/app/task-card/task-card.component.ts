@@ -1,10 +1,11 @@
-import { TasksService } from "../shared/tasks.service"
 import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core"
+import { ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
+import { MatSnackBar } from "@angular/material/snack-bar"
+
+import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
 import { PushNotificationsService } from "../shared/push-notifications.service"
-import { MatSnackBar } from "@angular/material/snack-bar"
-import { ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core"
 
 @Component({
   selector: "app-task-card",
@@ -32,6 +33,7 @@ export class TaskCardComponent implements OnInit {
     this.form = new FormGroup({
       title: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
+      time: new FormControl("", Validators.required),
     })
   }
 

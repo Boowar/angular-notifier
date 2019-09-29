@@ -1,8 +1,15 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
+import { MatSnackBar } from "@angular/material/snack-bar"
+
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
-import { MatSnackBar } from "@angular/material/snack-bar"
+
+export function rightDate({ value }: FormGroup) {
+  const [first, second] = [value.date, value.time]
+  const nowDate = new Date(first + " " + second).getTime() - Date.now()
+  return nowDate > 0 ? null : { wrongDate: true }
+}
 
 @Component({
   selector: "app-new-task",
@@ -23,7 +30,13 @@ export class NewTaskComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
+      dateGroup: new FormGroup(
+        {
+          date: new FormControl("", Validators.required),
+          time: new FormControl("", Validators.required),
+        },
+        rightDate
+      ),
     })
   }
 
@@ -32,10 +45,10 @@ export class NewTaskComponent implements OnInit {
   }
 
   submitTask(): void {
-    const { title, date } = this.form.value
+    const { title, date, time } = this.form.value
     const task: Task = {
       note: title,
-      date: date,
+      date: new Date(date + " " + time),
     }
 
     this.tasksService.createTask(task).subscribe(

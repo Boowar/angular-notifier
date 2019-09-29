@@ -12,7 +12,7 @@
       <mat-card-title [ngClass]="{strike: made}">{{task.note}}</mat-card-title>
 
       <div *ngIf="changeForm">
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
           <input matInput placeholder="Изменить задачу" value="{{task.note}}" formControlName="title">
         </mat-form-field>
       </div>
@@ -20,8 +20,11 @@
       <mat-card-content [ngClass]="{strike: made}">{{task.date | date: "medium"}}</mat-card-content>
 
       <div *ngIf="changeForm">
-        <mat-form-field class="example-full-width">
-          <input matInput type="datetime-local" formControlName="date" value="{{task.date | date: 'yyyy-MM-ddTHH:mm'}}">
+        <mat-form-field>
+          <input matInput type="date" formControlName="date" min="{{nowDate}}">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="time" formControlName="time">
         </mat-form-field>
       </div>
 
