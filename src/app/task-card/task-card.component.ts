@@ -6,6 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
 import { PushNotificationsService } from "../shared/push-notifications.service"
+import { rightDate } from "../shared/custom.validator"
 
 @Component({
   selector: "app-task-card",
@@ -31,12 +32,22 @@ export class TaskCardComponent implements OnInit {
     this.makePushNotification(this.task)
 
     this.form = new FormGroup({
-      title: new FormControl("", Validators.required),
-      date: new FormControl("", Validators.required),
-      time: new FormControl("", Validators.required),
+      title: new FormControl(""),
+      dateGroup: new FormGroup(
+        {
+          date: new FormControl("", Validators.required),
+          time: new FormControl("", Validators.required),
+        },
+        rightDate
+      ),
     })
   }
 
+  /**
+   * isDone
+   *
+   * Выполняет визуальное изменение компонента при выполнении задачи.
+   */
   isDone(): void {
     this.made = !this.made
     if (this.changeForm) {
@@ -44,10 +55,20 @@ export class TaskCardComponent implements OnInit {
     }
   }
 
+  /**
+   * openUpdateTaskFrom
+   *
+   * Открывает форму изменения задачи.
+   */
   openUpdateTaskForm(changeForm: boolean): void {
     this.changeForm = !changeForm
   }
 
+  /**
+   * removeTask
+   *
+   * Удаляет задачу.
+   */
   removeTask(task: Task): void {
     this.tasksService.removeTask(task).subscribe(() => {
       this.outputEvent.emit(task)
@@ -55,11 +76,19 @@ export class TaskCardComponent implements OnInit {
     })
   }
 
+  /**
+   * updateTask
+   *
+   * Изменяет задачу.
+   */
   updateTask(task: Task): void {
-    const { title, date } = this.form.value
+    const {
+      title,
+      dateGroup: { date, time },
+    } = this.form.value
     const updateTask: Task = {
       note: title,
-      date: date,
+      date: new Date(date + " " + time),
       id: task.id,
     }
 
@@ -69,6 +98,11 @@ export class TaskCardComponent implements OnInit {
     })
   }
 
+  /**
+   * makePushNotification
+   *
+   * Создает push уведомление при выполнении задачи.
+   */
   makePushNotification(
     task: Task,
     pushNotifications: PushNotificationsService = this.pushNotifications
@@ -94,6 +128,11 @@ export class TaskCardComponent implements OnInit {
     }
   }
 
+  /**
+   * openSnackBar
+   *
+   * Создает уведомление.
+   */
   openSnackBar(message: string, action: string = "Ok"): void {
     this.snackBar.open(message, action, {
       duration: 2000,

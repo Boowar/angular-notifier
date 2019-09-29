@@ -1,6 +1,6 @@
 <div class="button-wrapper" *ngIf="!create">
 
-  <button mat-mini-fab color="primary" (click)="createTask(this.create)" [ngClass]="{invisible: made}">
+  <button mat-mini-fab color="primary" (click)="createTask(this.create)">
 
     <i class="material-icons" *ngIf="!create">
       keyboard_arrow_down
@@ -15,7 +15,7 @@
 
     <div class="button-wrapper">
 
-      <button mat-mini-fab color="primary" (click)="createTask(this.create)" [ngClass]="{invisible: made}">
+      <button mat-mini-fab color="primary" (click)="createTask(this.create)">
 
         <i class="material-icons">
           keyboard_arrow_up
@@ -27,7 +27,7 @@
 
     <form (ngSubmit)="submitTask()" [formGroup]="form" class="form-wrapper">
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field>
         <input matInput placeholder="Что нужно сделать" value="" formControlName="title">
         <mat-error *ngIf="form.hasError('required', 'title')">
           Заполните поле
@@ -43,7 +43,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
           <input matInput type="time" formControlName="time">
           <mat-error *ngIf="form.hasError('required', ['dateGroup', 'time'])">
             Заполните поле

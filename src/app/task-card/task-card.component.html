@@ -1,6 +1,6 @@
 <mat-card>
 
-  <mat-checkbox (change)="isDone()" [checked]="made">
+  <mat-checkbox (change)="isDone()" [checked]="made" [disabled]='true'>
     <div *ngIf="made">Выполнено</div>
     <div *ngIf="!made">В процессе</div>
   </mat-checkbox>
@@ -20,12 +20,23 @@
       <mat-card-content [ngClass]="{strike: made}">{{task.date | date: "medium"}}</mat-card-content>
 
       <div *ngIf="changeForm">
-        <mat-form-field>
-          <input matInput type="date" formControlName="date" min="{{nowDate}}">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput type="time" formControlName="time">
-        </mat-form-field>
+        <div formGroupName="dateGroup">
+
+          <mat-form-field>
+            <input matInput type="date" formControlName="date" value="{{task.note}}">
+            <mat-error *ngIf="form.hasError('required', ['dateGroup', 'date'])">
+              Заполните поле
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="time" formControlName="time">
+            <mat-error *ngIf="form.hasError('required', ['dateGroup', 'time'])">
+              Заполните поле
+            </mat-error>
+          </mat-form-field>
+
+        </div>
       </div>
 
     </div>

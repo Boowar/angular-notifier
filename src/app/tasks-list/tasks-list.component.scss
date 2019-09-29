@@ -1,12 +1,9 @@
 main {
 
   .buttons-panel,
-  .new-task {
-    width: 100%;
+  .button-new-task {
     display: flex;
     justify-content: center;
-
-
 
     button {
       background-color: rgb(255, 255, 255);
@@ -17,7 +14,7 @@ main {
     }
   }
 
-  .new-task {
+  .button-new-task {
     margin: 0.5rem 0;
   }
 
@@ -25,7 +22,6 @@ main {
     list-style: none;
     padding: 0;
     margin: 0;
-    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -42,14 +38,22 @@ main {
       }
     }
 
+    .mat-card {
+      width: 70%;
+    }
+
     input {
       margin-right: 1rem;
     }
-
   }
 
   .mat-card {
-    margin: 1rem;
+    margin: 1rem auto;
+  }
+
+  .mat-card__no-tasks {
+    width: 20%;
+    text-align: center;
   }
 
   .loader {
@@ -62,13 +66,4 @@ main {
 
 .done {
   text-decoration: line-through;
-}
-
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }

@@ -6,13 +6,13 @@
     <button mat-stroked-button color="accent" (click)="getUncompletedTasks()">Невыполненные</button>
   </div>
 
-  <div class="new-task">
-    <app-new-task (outputEvent)="getTasks()"></app-new-task>
+  <div class="button-new-task">
+    <app-new-task (outputEvent)="getAllTasks()"></app-new-task>
   </div>
 
   <div *ngIf="!loading">
 
-    <ul *ngIf="tasks.length; else noTasks">
+    <ul *ngIf="tasks[0].length || tasks[1].length || tasks[2].length; else noTasks">
 
       <div *ngIf="tasks[0].length">
 
@@ -23,7 +23,7 @@
         </mat-card>
 
         <li *ngFor="let task of tasks[0]">
-          <app-task-card [task]="task" (outputEvent)="getTasks()"></app-task-card>
+          <app-task-card [task]="task" (outputEvent)="getAllTasks()"></app-task-card>
         </li>
 
       </div>
@@ -37,7 +37,7 @@
         </mat-card>
 
         <li *ngFor="let task of tasks[1]">
-          <app-task-card [task]="task" (outputEvent)="getTasks()"></app-task-card>
+          <app-task-card [task]="task" (outputEvent)="getAllTasks()"></app-task-card>
         </li>
 
       </div>
@@ -51,7 +51,7 @@
         </mat-card>
 
         <li *ngFor="let task of tasks[2]">
-          <app-task-card [task]="task" (outputEvent)="getTasks()"></app-task-card>
+          <app-task-card [task]="task" (outputEvent)="getAllTasks()"></app-task-card>
         </li>
 
       </div>
@@ -59,7 +59,7 @@
     </ul>
 
     <ng-template #noTasks>
-      <mat-card>
+      <mat-card class="mat-card__no-tasks">
         <mat-card-title>
           Задач нет
         </mat-card-title>

@@ -22,6 +22,11 @@ export class TasksListComponent implements OnInit {
     /* this.getAllTasks() */
   }
 
+  /**
+   * getAllTasks
+   *
+   * Получает все задачи.
+   */
   getAllTasks(): void {
     this.loading = true
     this.tasksService.getTasks().subscribe(receivedTasks => {
@@ -31,6 +36,11 @@ export class TasksListComponent implements OnInit {
     })
   }
 
+  /**
+   * getCompletedTasks
+   *
+   * Получает все выполненные задачи.
+   */
   getCompletedTasks(): void {
     this.loading = true
     let completedTasks: Task[][] = []
@@ -47,6 +57,11 @@ export class TasksListComponent implements OnInit {
     })
   }
 
+  /**
+   * getCompletedTasks
+   *
+   * Получает все невыполненные задачи.
+   */
   getUncompletedTasks() {
     this.loading = true
     let completedTasks: Task[][] = []
@@ -63,6 +78,11 @@ export class TasksListComponent implements OnInit {
     })
   }
 
+  /**
+   * sortedTasks
+   *
+   * Сортирует задачи на сегодняшние, завтрашнии и остальные.
+   */
   sortedTasks(tasks: Task[]): Array<Array<Task>> {
     let myTasks: Task[][] = []
     let todayTasks: Task[] = []
@@ -71,6 +91,12 @@ export class TasksListComponent implements OnInit {
 
     const today = new Date(Date())
 
+    /**
+     * currentDate
+     *
+     * Возвращает объект с текущим годом, месяце, днем и завтрашним днем.
+     *
+     */
     const currentDate = currentDate => {
       const tommorowDate = new Date(currentDate)
       const currentYear = currentDate.getFullYear()
@@ -113,6 +139,11 @@ export class TasksListComponent implements OnInit {
     return myTasks
   }
 
+  /**
+   * openSnackBar
+   *
+   * Создает уведомление.
+   */
   openSnackBar(message: string, action: string = "Ok"): void {
     this.snackBar.open(message, action, {
       duration: 2000,

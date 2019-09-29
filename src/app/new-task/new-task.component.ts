@@ -4,12 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
-
-export function rightDate({ value }: FormGroup) {
-  const [first, second] = [value.date, value.time]
-  const nowDate = new Date(first + " " + second).getTime() - Date.now()
-  return nowDate > 0 ? null : { wrongDate: true }
-}
+import { rightDate } from "../shared/custom.validator"
 
 @Component({
   selector: "app-new-task",
@@ -40,12 +35,21 @@ export class NewTaskComponent implements OnInit {
     })
   }
 
+  /**
+   * createTask
+   *
+   * Открывает форму новой задачи.
+   */
   createTask(): void {
     this.create = !this.create
   }
 
+  /**
+   * submitTask
+   *
+   * Отправляет новую задачу.
+   */
   submitTask(): void {
-    console.log(this.form.value)
     const {
       title,
       dateGroup: { date, time },
@@ -65,6 +69,11 @@ export class NewTaskComponent implements OnInit {
     )
   }
 
+  /**
+   * openSnackBar
+   *
+   * Создает уведомление.
+   */
   openSnackBar(message: string, action: string = "Ok"): void {
     this.snackBar.open(message, action, {
       duration: 2000,
