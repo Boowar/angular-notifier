@@ -1,0 +1,29 @@
+$form-butten : rgb(0, 128, 0);
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+
+  button {
+    background-color: $form-butten;
+    transition: .3s all;
+    cursor: pointer;
+
+    &:hover {
+      background: darken($form-butten, 10%);
+    }
+  }
+}
+
+.mat-card {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  .form-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    min-width: 450px;
+  }
+}

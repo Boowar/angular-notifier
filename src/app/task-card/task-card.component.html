@@ -1,0 +1,68 @@
+<mat-card>
+
+  <mat-checkbox (change)="isDone()" [checked]="made" [disabled]='true'>
+    <div *ngIf="made">Выполнено</div>
+    <div *ngIf="!made">В процессе</div>
+  </mat-checkbox>
+
+  <form (ngSubmit)="updateTask(task)" [formGroup]="form">
+
+    <div class="text-wrapper">
+
+      <mat-card-title [ngClass]="{strike: made}">{{task.note}}</mat-card-title>
+
+      <div *ngIf="changeForm">
+        <mat-form-field>
+          <input matInput placeholder="Изменить задачу" value="{{task.note}}" formControlName="title">
+        </mat-form-field>
+      </div>
+
+      <mat-card-content [ngClass]="{strike: made}">{{task.date | date: "medium"}}</mat-card-content>
+
+      <div *ngIf="changeForm">
+        <div formGroupName="dateGroup">
+
+          <mat-form-field>
+            <input matInput type="date" formControlName="date" value="{{task.note}}">
+            <mat-error *ngIf="form.hasError('required', ['dateGroup', 'date'])">
+              Заполните поле
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="time" formControlName="time">
+            <mat-error *ngIf="form.hasError('required', ['dateGroup', 'time'])">
+              Заполните поле
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+    </div>
+
+    <button *ngIf="changeForm" mat-raised-button type="submit" class="btn btn-primary btn-block"
+      [disabled]="form.invalid">
+      Изменить
+    </button>
+
+  </form>
+
+  <div class="buttons-wrapper">
+
+    <button mat-mini-fab color="warn" (click)="removeTask(task)"><i class="material-icons">
+        delete_sweep
+      </i></button>
+
+    <button mat-mini-fab color="primary" (click)="openUpdateTaskForm(this.changeForm)" [ngClass]="{invisible: made}">
+      <i class="material-icons" *ngIf="!changeForm">
+        keyboard_arrow_down
+      </i>
+      <i class="material-icons" *ngIf="changeForm">
+        keyboard_arrow_up
+      </i>
+    </button>
+
+  </div>
+
+</mat-card>

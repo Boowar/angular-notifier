@@ -1,58 +1,69 @@
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  margin-top: 1rem;
+main {
 
-  li {
-    position: relative;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: .5rem 1rem;
-    margin-bottom: .5rem;
+  .buttons-panel,
+  .button-new-task {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+
+    button {
+      background-color: rgb(255, 255, 255);
+      width: 12rem;
+      margin: 0 0.7rem;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+    }
   }
 
-  input {
-    margin-right: 1rem;
+  .button-new-task {
+    margin: 0.5rem 0;
   }
 
-  small {
-    position: absolute;
-    right: 40px;
-    bottom: 5px;
-    font-size: .8rem;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    li {
+      position: relative;
+      margin-bottom: .5rem;
+      display: flex;
+      justify-content: center;
+
+      app-task-card {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    .mat-card {
+      width: 70%;
+    }
+
+    input {
+      margin-right: 1rem;
+    }
+  }
+
+  .mat-card {
+    margin: 1rem auto;
+  }
+
+  .mat-card__no-tasks {
+    width: 20%;
+    text-align: center;
+  }
+
+  .loader {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
   }
 }
 
 .done {
   text-decoration: line-through;
-}
-
-.rm {
-  $color: red;
-  font-size: 1rem;
-  transition: .3s all;
-  cursor: pointer;
-  text-align: center;
-
-  &:hover {
-    background: darken($color, 20%);
-  }
-
-  span {
-    padding-bottom: 10px;
-  }
-
-}
-
-.example-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-full-width {
-  width: 100%;
 }

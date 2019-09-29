@@ -1,0 +1,60 @@
+<div class="button-wrapper" *ngIf="!create">
+
+  <button mat-mini-fab color="primary" (click)="createTask(this.create)">
+
+    <i class="material-icons" *ngIf="!create">
+      keyboard_arrow_down
+    </i>
+
+  </button>
+
+</div>
+
+<div *ngIf="create">
+  <mat-card>
+
+    <div class="button-wrapper">
+
+      <button mat-mini-fab color="primary" (click)="createTask(this.create)">
+
+        <i class="material-icons">
+          keyboard_arrow_up
+        </i>
+
+      </button>
+
+    </div>
+
+    <form (ngSubmit)="submitTask()" [formGroup]="form" class="form-wrapper">
+
+      <mat-form-field>
+        <input matInput placeholder="Что нужно сделать" value="" formControlName="title">
+        <mat-error *ngIf="form.hasError('required', 'title')">
+          Заполните поле
+        </mat-error>
+      </mat-form-field>
+
+      <div formGroupName="dateGroup">
+
+        <mat-form-field>
+          <input matInput type="date" formControlName="date">
+          <mat-error *ngIf="form.hasError('required', ['dateGroup', 'date'])">
+            Заполните поле
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput type="time" formControlName="time">
+          <mat-error *ngIf="form.hasError('required', ['dateGroup', 'time'])">
+            Заполните поле
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <button mat-raised-button type="submit" [disabled]="form.invalid"> Добавить задачу</button>
+
+    </form>
+
+  </mat-card>
+</div>

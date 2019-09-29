@@ -1,28 +1,83 @@
-<div *ngIf="!loading">
-  <main>
-    <mat-list *ngIf="tasks.length; else noTasks">
-      <mat-list-item *ngFor="let task of tasks">
-        <input type="checkbox">
-        <mat-card-title>Что делать: {{task?.note}}</mat-card-title>
-        <mat-card-content>Когда: {{task?.date | date: "medium"}}</mat-card-content>
-        <button mat-fab color="warn" class="rm" (click)="removeTask(task)"><span>&times;</span></button>
-      </mat-list-item>
-    </mat-list>
-    <ng-template #noTasks>
-      <p style="text-align: center;">No tasks now!</p>
-    </ng-template>
-  </main>
-  <p *ngIf="loading">Loading...</p>
-</div>
-<footer>
-  <form (ngSubmit)="submitTask()" [formGroup]="form">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="What you need to do" value="" formControlName="title">
-    </mat-form-field>
+<main>
 
-    <mat-form-field class="example-full-width">
-      <input matInput type="datetime-local" formControlName="date">
-    </mat-form-field>
-    <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid"> Add</button>
-  </form>
-</footer>
+  <div class="buttons-panel">
+    <button mat-stroked-button (click)="getAllTasks()">Все задачи</button>
+    <button mat-stroked-button color="primary" (click)="getCompletedTasks()">Выполненные</button>
+    <button mat-stroked-button color="accent" (click)="getUncompletedTasks()">Невыполненные</button>
+  </div>
+
+  <div class="button-new-task">
+    <app-new-task (outputEvent)="getAllTasks()"></app-new-task>
+  </div>
+
+  <div *ngIf="!loading">
+
+    <ul *ngIf="tasks[0].length || tasks[1].length || tasks[2].length; else noTasks">
+
+      <div *ngIf="tasks[0].length">
+
+        <mat-card>
+          <mat-card-title>
+            Задачи на сегодня:
+          </mat-card-title>
+        </mat-card>
+
+        <li *ngFor="let task of tasks[0]">
+          <app-task-card [task]="task" (outputEvent)="getAllTasks()"></app-task-card>
+        </li>
+
+      </div>
+
+      <div *ngIf="tasks[1].length">
+
+        <mat-card>
+          <mat-card-title>
+            Задачи на завтра:
+          </mat-card-title>
+        </mat-card>
+
+        <li *ngFor="let task of tasks[1]">
+          <app-task-card [task]="task" (outputEvent)="getAllTasks()"></app-task-card>
+        </li>
+
+      </div>
+
+      <div *ngIf="tasks[2].length">
+
+        <mat-card>
+          <mat-card-title>
+            Остальные задачи:
+          </mat-card-title>
+        </mat-card>
+
+        <li *ngFor="let task of tasks[2]">
+          <app-task-card [task]="task" (outputEvent)="getAllTasks()"></app-task-card>
+        </li>
+
+      </div>
+
+    </ul>
+
+    <ng-template #noTasks>
+      <mat-card class="mat-card__no-tasks">
+        <mat-card-title>
+          Задач нет
+        </mat-card-title>
+      </mat-card>
+    </ng-template>
+
+  </div>
+
+  <div class="loader" *ngIf="loading">
+
+    <mat-card>
+      <mat-card-title>
+        Загрузка данных...
+      </mat-card-title>
+    </mat-card>
+
+    <mat-spinner></mat-spinner>
+
+  </div>
+
+</main>
