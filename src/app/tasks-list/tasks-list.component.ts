@@ -19,7 +19,8 @@ export class TasksListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    /* this.getAllTasks() */
+    this.tasksService.controlUser()
+    setTimeout(() => this.getAllTasks(), 1000)
   }
 
   /**

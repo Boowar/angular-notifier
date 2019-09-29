@@ -1,12 +1,11 @@
-import { MaterialModule } from "./material/material.module"
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { BrowserModule } from "@angular/platform-browser"
-import { NgModule } from "@angular/core"
 import { FormsModule, ReactiveFormsModule } from "@angular/forms"
 import { HttpClientModule } from "@angular/common/http"
+import { MaterialModule } from "./material/material.module"
+import { NgModule } from "@angular/core"
 
-import { AppRoutingModule } from "./app-routing.module"
 import { AppComponent } from "./app.component"
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { TasksListComponent } from "./tasks-list/tasks-list.component"
 import { TaskCardComponent } from "./task-card/task-card.component"
 import { NewTaskComponent } from "./new-task/new-task.component"
@@ -20,7 +19,6 @@ import { NewTaskComponent } from "./new-task/new-task.component"
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
