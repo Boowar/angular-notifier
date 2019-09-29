@@ -45,7 +45,11 @@ export class NewTaskComponent implements OnInit {
   }
 
   submitTask(): void {
-    const { title, date, time } = this.form.value
+    console.log(this.form.value)
+    const {
+      title,
+      dateGroup: { date, time },
+    } = this.form.value
     const task: Task = {
       note: title,
       date: new Date(date + " " + time),
