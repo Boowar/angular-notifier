@@ -1,21 +1,30 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core"
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { MatSnackBar } from "@angular/material/snack-bar"
 
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
 import { MyValidators } from "../shared/my.validator"
+import { Subscription } from "rxjs"
 
 @Component({
   selector: "app-new-task",
   templateUrl: "./new-task.component.html",
   styleUrls: ["./new-task.component.scss"],
 })
-export class NewTaskComponent implements OnInit {
+export class NewTaskComponent implements OnInit, OnDestroy {
   @Output() outputEvent: EventEmitter<any> = new EventEmitter()
 
   form: FormGroup
   private create = false
+
+  tSub: Subscription
 
   constructor(
     private tasksService: TasksService,
@@ -33,6 +42,12 @@ export class NewTaskComponent implements OnInit {
         MyValidators.rightDate
       ),
     })
+  }
+
+  ngOnDestroy() {
+    if (this.tSub) {
+      this.tSub.unsubscribe()
+    }
   }
 
   /**
@@ -59,14 +74,14 @@ export class NewTaskComponent implements OnInit {
       date: new Date(date + " " + time),
     }
 
-    /* this.tasksService.createTask(task).subscribe(
+    this.tSub = this.tasksService.createTask(task).subscribe(
       () => {
         this.outputEvent.emit()
         this.form.reset()
         this.openSnackBar("Задание успешно создано")
       },
       err => console.error(task, err)
-    ) */
+    )
     console.log("Form: ", this.form)
     console.log("Form get: ", this.form.get("time"))
   }

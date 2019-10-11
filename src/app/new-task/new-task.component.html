@@ -48,12 +48,13 @@
           <mat-error *ngIf="form.hasError('required', ['dateGroup', 'time'])">
             Заполните поле
           </mat-error>
+
         </mat-form-field>
 
       </div>
 
+      <!-- <button mat-raised-button type="submit" [disabled]="form.invalid"> Добавить задачу</button> -->
       <button mat-raised-button type="submit" [disabled]="form.invalid"> Добавить задачу</button>
-
     </form>
 
   </mat-card>

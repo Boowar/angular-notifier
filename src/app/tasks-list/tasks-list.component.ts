@@ -1,26 +1,58 @@
-import { Component, OnInit } from "@angular/core"
+import { Component, OnInit, OnDestroy } from "@angular/core"
 import { MatSnackBar } from "@angular/material/snack-bar"
 
+import { AuthService } from "./../auth.service"
 import { Task } from "../shared/task.model"
 import { TasksService } from "../shared/tasks.service"
+import { Subscription } from "rxjs"
 
 @Component({
   selector: "app-tasks-list",
   templateUrl: "./tasks-list.component.html",
   styleUrls: ["./tasks-list.component.scss"],
 })
-export class TasksListComponent implements OnInit {
+export class TasksListComponent implements OnInit, OnDestroy {
   private loading: boolean = true
   private tasks: Task[][]
 
+  cSub: Subscription
+  aSub: Subscription
+  tSub: Subscription
+  uSub: Subscription
+
   constructor(
     private tasksService: TasksService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
-    this.tasksService.controlUser()
-    setTimeout(() => this.getAllTasks(), 1000)
+    /* this.auth.controlUser() */
+    this.cSub = this.auth.controlUser().subscribe()
+    console.log("It's done 1")
+    setTimeout(() => {
+      console.log("It's done 2")
+      this.getAllTasks()
+      console.log("It's done 3")
+    }, 1000)
+
+    /* this.tasksService.controlUser()
+    setTimeout(() => this.getAllTasks(), 1000) */
+  }
+
+  ngOnDestroy() {
+    if (this.cSub) {
+      this.cSub.unsubscribe()
+    }
+    if (this.aSub) {
+      this.aSub.unsubscribe()
+    }
+    if (this.tSub) {
+      this.tSub.unsubscribe()
+    }
+    if (this.uSub) {
+      this.uSub.unsubscribe()
+    }
   }
 
   /**
@@ -30,7 +62,7 @@ export class TasksListComponent implements OnInit {
    */
   getAllTasks(): void {
     this.loading = true
-    this.tasksService.getTasks().subscribe(receivedTasks => {
+    this.aSub = this.tasksService.getTasks().subscribe(receivedTasks => {
       this.tasks = this.sortedTasks(receivedTasks)
       this.loading = false
       this.openSnackBar("Данные успешно загружены")
@@ -45,7 +77,7 @@ export class TasksListComponent implements OnInit {
   getCompletedTasks(): void {
     this.loading = true
     let completedTasks: Task[][] = []
-    this.tasksService.getTasks().subscribe(receivedTasks => {
+    this.tSub = this.tasksService.getTasks().subscribe(receivedTasks => {
       const arrayTasks = this.sortedTasks(receivedTasks)
       for (let tasks of arrayTasks) {
         completedTasks.push(
@@ -66,7 +98,7 @@ export class TasksListComponent implements OnInit {
   getUncompletedTasks() {
     this.loading = true
     let completedTasks: Task[][] = []
-    this.tasksService.getTasks().subscribe(receivedTasks => {
+    this.uSub = this.tasksService.getTasks().subscribe(receivedTasks => {
       const arrayTasks = this.sortedTasks(receivedTasks)
       for (let tasks of arrayTasks) {
         completedTasks.push(
@@ -95,7 +127,7 @@ export class TasksListComponent implements OnInit {
     /**
      * currentDate
      *
-     * Возвращает объект с текущим годом, месяце, днем и завтрашним днем.
+     * Возвращает объект с текущим годом, месяцем, днем и завтрашним днем.
      *
      */
     const currentDate = currentDate => {

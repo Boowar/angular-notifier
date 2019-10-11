@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core"
+import {
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  OnDestroy,
+} from "@angular/core"
 import { ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core"
 import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { MatSnackBar } from "@angular/material/snack-bar"
@@ -7,6 +14,7 @@ import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
 import { PushNotificationsService } from "../shared/push-notifications.service"
 import { MyValidators } from "../shared/my.validator"
+import { Subscription } from "rxjs"
 
 @Component({
   selector: "app-task-card",
@@ -14,12 +22,16 @@ import { MyValidators } from "../shared/my.validator"
   templateUrl: "./task-card.component.html",
   styleUrls: ["./task-card.component.scss"],
 })
-export class TaskCardComponent implements OnInit {
+export class TaskCardComponent implements OnInit, OnDestroy {
   @Input() task: Task
   @Output() outputEvent: EventEmitter<Task> = new EventEmitter()
   private form: FormGroup
   private changeForm = false
   private made = false
+
+  tSub: Subscription
+  rSub: Subscription
+  pSub: Subscription
 
   constructor(
     private tasksService: TasksService,
@@ -41,6 +53,18 @@ export class TaskCardComponent implements OnInit {
         MyValidators.rightDate
       ),
     })
+  }
+
+  ngOnDestroy() {
+    if (this.rSub) {
+      this.rSub.unsubscribe()
+    }
+    if (this.pSub) {
+      this.pSub.unsubscribe()
+    }
+    if (this.tSub) {
+      this.tSub.unsubscribe()
+    }
   }
 
   /**
@@ -70,7 +94,7 @@ export class TaskCardComponent implements OnInit {
    * Удаляет задачу.
    */
   removeTask(task: Task): void {
-    this.tasksService.removeTask(task).subscribe(() => {
+    this.rSub = this.tasksService.removeTask(task).subscribe(() => {
       this.outputEvent.emit(task)
       this.openSnackBar("Данные успешно удалены")
     })
@@ -92,7 +116,7 @@ export class TaskCardComponent implements OnInit {
       id: task.id,
     }
 
-    this.tasksService.updateTask(updateTask).subscribe(() => {
+    this.tSub = this.tasksService.updateTask(updateTask).subscribe(() => {
       this.outputEvent.emit(updateTask)
       this.openSnackBar("Данные успешно обновлены")
     })
@@ -110,7 +134,7 @@ export class TaskCardComponent implements OnInit {
     const eta_ms = new Date(task.date).getTime() - Date.now()
     if (eta_ms > 0) {
       const timeout = setTimeout(() => {
-        pushNotifications
+        this.pSub = pushNotifications
           .create("Задача выполнена", { body: task.note })
           .subscribe(
             () => {

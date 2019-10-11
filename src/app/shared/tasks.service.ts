@@ -1,6 +1,9 @@
-import { Task } from "./task.model"
 import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
+
+import { AuthService } from "./../auth.service"
+import { environment } from "./../../environments/environment"
+import { Task } from "./task.model"
 import { Observable } from "rxjs"
 import { map } from "rxjs/operators"
 
@@ -8,47 +11,10 @@ import { map } from "rxjs/operators"
   providedIn: "root",
 })
 export class TasksService {
-  public tasks: Task[] = []
+  /* public userId: string */ /* `A7tboRIFoMhJnwUfgwMd` */
+  /* public tasksUrl: string */
 
-  private userId: string /* `A7tboRIFoMhJnwUfgwMd` */
-  private mainUrl: string = `https://europe-west1-st-testcase.cloudfunctions.net`
-  private tasksUrl: string
-
-  constructor(private http: HttpClient) {}
-
-  /**
-   * controlUser
-   *
-   * Проверяем существует ли id пользователся в localstorage, если нет, то создаем.
-   */
-  controlUser() {
-    if (
-      !localStorage.getItem("userAngularNotifierId") ||
-      localStorage.getItem("userAngularNotifierId") === "null"
-    ) {
-      this.getNewUser().subscribe(() => {
-        this.userId = localStorage.getItem("userAngularNotifierId")
-        this.tasksUrl = `${this.mainUrl}/api/reminders?userId=${this.userId}`
-      })
-    } else {
-      this.userId = `${localStorage.getItem("userAngularNotifierId")}`
-      this.tasksUrl = `${this.mainUrl}/api/reminders?userId=${this.userId}`
-    }
-  }
-
-  /**
-   * getNewUser
-   *
-   * Получаем нового пользователя.
-   */
-  getNewUser(): Observable<any> {
-    const userUrl = `${this.mainUrl}/api/auth`
-    return this.http.post<any>(userUrl, {}).pipe(
-      map(userId => {
-        localStorage.setItem("userAngularNotifierId", userId.id)
-      })
-    )
-  }
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   /**
    * getTasks
@@ -56,8 +22,11 @@ export class TasksService {
    * Получаем все задачи.
    */
   getTasks(): Observable<Task[]> {
-    return this.http.get<Task[]>(this.tasksUrl).pipe(
+    const tasksUrl = `${environment.mainUrl}/api/reminders?userId=${this.auth.userId}`
+    console.log(tasksUrl)
+    return this.http.get<Task[]>(tasksUrl).pipe(
       map(tasks => {
+        console.log(tasks)
         if (!tasks) {
           return []
         }
@@ -72,7 +41,7 @@ export class TasksService {
    * Удаляем задачу.
    */
   removeTask(task: Task): Observable<Task> {
-    const taskUrl: string = `${this.mainUrl}/api/reminders/${task.id}?userId=${this.userId}`
+    const taskUrl: string = `${environment.mainUrl}/api/reminders/${task.id}?userId=${this.auth.userId}`
     return this.http.delete<Task>(taskUrl)
   }
 
@@ -82,7 +51,8 @@ export class TasksService {
    * Создаем задачу.
    */
   createTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.tasksUrl, task)
+    const taskUrl = `${environment.mainUrl}/api/reminders?userId=${this.auth.userId}`
+    return this.http.post<Task>(taskUrl, task)
   }
 
   /**
@@ -91,7 +61,7 @@ export class TasksService {
    * Изменяем задачу.
    */
   updateTask(task: Task): Observable<Task> {
-    const taskUrl: string = `${this.mainUrl}/api/reminders/${task.id}?userId=${this.userId}`
+    const taskUrl: string = `${environment.mainUrl}/api/reminders/${task.id}?userId=${this.auth.userId}`
     return this.http.put<Task>(taskUrl, task)
   }
 }
