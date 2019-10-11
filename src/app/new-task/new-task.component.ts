@@ -4,7 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
-import { rightDate } from "../shared/custom.validator"
+import { MyValidators } from "../shared/my.validator"
 
 @Component({
   selector: "app-new-task",
@@ -14,7 +14,7 @@ import { rightDate } from "../shared/custom.validator"
 export class NewTaskComponent implements OnInit {
   @Output() outputEvent: EventEmitter<any> = new EventEmitter()
 
-  private form: FormGroup
+  form: FormGroup
   private create = false
 
   constructor(
@@ -30,7 +30,7 @@ export class NewTaskComponent implements OnInit {
           date: new FormControl("", Validators.required),
           time: new FormControl("", Validators.required),
         },
-        rightDate
+        MyValidators.rightDate
       ),
     })
   }
@@ -59,14 +59,16 @@ export class NewTaskComponent implements OnInit {
       date: new Date(date + " " + time),
     }
 
-    this.tasksService.createTask(task).subscribe(
+    /* this.tasksService.createTask(task).subscribe(
       () => {
         this.outputEvent.emit()
         this.form.reset()
         this.openSnackBar("Задание успешно создано")
       },
       err => console.error(task, err)
-    )
+    ) */
+    console.log("Form: ", this.form)
+    console.log("Form get: ", this.form.get("time"))
   }
 
   /**

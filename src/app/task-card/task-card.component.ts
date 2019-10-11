@@ -6,7 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar"
 import { TasksService } from "../shared/tasks.service"
 import { Task } from "../shared/task.model"
 import { PushNotificationsService } from "../shared/push-notifications.service"
-import { rightDate } from "../shared/custom.validator"
+import { MyValidators } from "../shared/my.validator"
 
 @Component({
   selector: "app-task-card",
@@ -38,7 +38,7 @@ export class TaskCardComponent implements OnInit {
           date: new FormControl("", Validators.required),
           time: new FormControl("", Validators.required),
         },
-        rightDate
+        MyValidators.rightDate
       ),
     })
   }
